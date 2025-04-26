@@ -3,9 +3,18 @@ import { fastifyCors } from "@fastify/cors";
 import { fastifySwagger } from "@fastify/swagger";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
 import { fastify } from "fastify";
-import { hasZodFastifySchemaValidationErrors } from "fastify-type-provider-zod";
+import {
+  hasZodFastifySchemaValidationErrors,
+  jsonSchemaTransform,
+  serializerCompiler,
+  validatorCompiler,
+} from "fastify-type-provider-zod";
+import { createLinkRoute } from "./routes/create-link";
 
 const server = fastify();
+
+server.setValidatorCompiler(validatorCompiler);
+server.setSerializerCompiler(serializerCompiler);
 
 // configuracao de error genéricos
 server.setErrorHandler((error, request, reply) => {
@@ -30,6 +39,7 @@ server.register(fastifySwagger, {
       version: "1.0.0",
     },
   },
+  transform: jsonSchemaTransform,
 });
 server.register(fastifySwaggerUi, {
   routePrefix: "/docs",
@@ -39,6 +49,9 @@ server.register(fastifySwaggerUi, {
 server.get("/health", async (request, reply) => {
   return { status: "ok" };
 });
+
+// Rotas
+server.register(createLinkRoute);
 
 server
   .listen({

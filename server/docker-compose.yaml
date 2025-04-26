@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres
+    restart: unless-stopped # Caso o container pare, será restartado automaticamente
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=root # (documentação da imagem)
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=brevly_db
+    volumes:
+      - db:/var/lib/postgresql/data # Bind de um volume dentro do container com a maquina local (documentação da imagem)
+    networks:
+      - node-app
+      - db
+  # app:
+  #   build: . # Rodar a imagem da aplicação especificada no Dockerfile
+  #   depends_on: # O serviço da aplicação depende do serviço de banco de dados, aguardando o serviço iniciar antes de começar
+  #     - db
+  #   container_name: brevly-container
+  #   ports:
+  #     - 3000:3000
+  #   environment: # Definição das variáveis de ambiente
+  #     - DATABASE_URL=postgres://root:root@localhost:5432/brevly_db
+  #   networks:
+  #     - node-app
+
+volumes:
+  db:
+
+networks:
+  node-app:
+    driver: bridge # Por default o docker ja utiliza o driver bridge
+  db:
+    driver: bridge
