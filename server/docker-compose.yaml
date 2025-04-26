@@ -8,7 +8,7 @@ services:
     environment:
       - POSTGRES_USER=root # (documentação da imagem)
       - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=brevly_db
+      - POSTGRES_DB=brevly
     volumes:
       - db:/var/lib/postgresql/data # Bind de um volume dentro do container com a maquina local (documentação da imagem)
     networks:
@@ -22,7 +22,7 @@ services:
   #   ports:
   #     - 3000:3000
   #   environment: # Definição das variáveis de ambiente
-  #     - DATABASE_URL=postgres://root:root@localhost:5432/brevly_db
+  #     - DATABASE_URL=postgres://root:root@localhost:5432/brevly
   #   networks:
   #     - node-app
 
