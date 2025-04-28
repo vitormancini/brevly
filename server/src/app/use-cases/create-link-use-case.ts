@@ -6,8 +6,8 @@ import { z } from "zod";
 import { LinkAlreadyExistsError } from "../errors/link-already-exists-error";
 
 const createLinkInput = z.object({
-  link: z.string(),
-  shortLink: z.string(),
+  link: z.string().url(),
+  shortLink: z.string().url(),
 });
 
 type CreateLinkInput = z.input<typeof createLinkInput>;

@@ -10,6 +10,7 @@ import {
   validatorCompiler,
 } from "fastify-type-provider-zod";
 import { createLinkRoute } from "./routes/create-link";
+import { fetchLinksRoute } from "./routes/fetch-links";
 
 const server = fastify();
 
@@ -52,6 +53,7 @@ server.get("/health", async (request, reply) => {
 
 // Rotas
 server.register(createLinkRoute);
+server.register(fetchLinksRoute);
 
 server
   .listen({
