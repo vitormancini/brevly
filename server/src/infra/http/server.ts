@@ -10,6 +10,7 @@ import {
   validatorCompiler,
 } from "fastify-type-provider-zod";
 import { createLinkRoute } from "./routes/create-link";
+import { deleteLinkRoute } from "./routes/delete-link";
 import { fetchLinksRoute } from "./routes/fetch-links";
 import { incrementAccessCountRoute } from "./routes/increment-access-count";
 
@@ -56,6 +57,7 @@ server.get("/health", async (request, reply) => {
 server.register(createLinkRoute);
 server.register(fetchLinksRoute);
 server.register(incrementAccessCountRoute);
+server.register(deleteLinkRoute);
 
 server
   .listen({
