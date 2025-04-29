@@ -1,19 +1,20 @@
 import db from "@/infra/db";
 import { isRight, unwrapEither } from "@/shared/either";
 import { sql } from "drizzle-orm";
-import { beforeAll, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { LinkAlreadyExistsError } from "../errors/link-already-exists-error";
 import { createLinkUseCase } from "./create-link-use-case";
 
 describe("Crate link", () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     await db.execute(sql`TRUNCATE TABLE links CASCADE;`);
+    //await db.delete(schemas.links);
   });
 
   it("should be able to create a new link", async () => {
     const result = await createLinkUseCase({
       link: "https://google.com",
-      shortLink: "ggl",
+      shortLink: "http://localhost/ggl1",
     });
 
     expect(isRight(result)).toBe(true);
@@ -23,12 +24,12 @@ describe("Crate link", () => {
   it("should not be able to create a new link with same short link", async () => {
     await createLinkUseCase({
       link: "https://google.com",
-      shortLink: "ggl",
+      shortLink: "http://localhost/ggl2",
     });
 
     const result = await createLinkUseCase({
       link: "https://google.com",
-      shortLink: "ggl",
+      shortLink: "http://localhost/ggl3",
     });
 
     expect(isRight(result)).toBe(false);

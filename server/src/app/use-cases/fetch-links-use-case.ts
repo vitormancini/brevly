@@ -36,13 +36,15 @@ export async function fetchLinksUseCase(
       .select({
         id: schemas.links.id,
         link: schemas.links.link,
-        shortLink: schemas.links.shorLink,
+        shortLink: schemas.links.shortLink,
         accessCount: schemas.links.accessCount,
-        createAt: schemas.links.createAt,
+        createAt: schemas.links.createdAt,
       })
       .from(schemas.links)
       .where(
-        searchQuery ? ilike(schemas.links.link, `%${searchQuery}%`) : undefined
+        searchQuery
+          ? ilike(schemas.links.shortLink, `%${searchQuery}%`)
+          : undefined
       )
       .orderBy((fields) => {
         if (sortBy && sortDirection === "asc") {

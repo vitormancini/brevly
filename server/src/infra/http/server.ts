@@ -11,6 +11,7 @@ import {
 } from "fastify-type-provider-zod";
 import { createLinkRoute } from "./routes/create-link";
 import { fetchLinksRoute } from "./routes/fetch-links";
+import { incrementAccessCountRoute } from "./routes/increment-access-count";
 
 const server = fastify();
 
@@ -54,6 +55,7 @@ server.get("/health", async (request, reply) => {
 // Rotas
 server.register(createLinkRoute);
 server.register(fetchLinksRoute);
+server.register(incrementAccessCountRoute);
 
 server
   .listen({

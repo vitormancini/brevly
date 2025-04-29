@@ -21,7 +21,7 @@ export async function createLinkUseCase(
   const [linkAlreadyExists] = await db
     .select()
     .from(schemas.links)
-    .where(eq(schemas.links.shorLink, shortLink))
+    .where(eq(schemas.links.shortLink, shortLink))
     .limit(1);
 
   if (linkAlreadyExists) {
@@ -30,7 +30,7 @@ export async function createLinkUseCase(
 
   const [newLink] = await db
     .insert(schemas.links)
-    .values({ link, shorLink: shortLink })
+    .values({ link, shortLink: shortLink })
     .returning({ id: schemas.links.id });
 
   return makeRight({ id: newLink.id });
