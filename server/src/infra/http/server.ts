@@ -11,6 +11,7 @@ import {
 } from "fastify-type-provider-zod";
 import { createLinkRoute } from "./routes/create-link";
 import { deleteLinkRoute } from "./routes/delete-link";
+import { exportLinksRoute } from "./routes/export-links";
 import { fetchLinksRoute } from "./routes/fetch-links";
 import { incrementAccessCountRoute } from "./routes/increment-access-count";
 
@@ -58,6 +59,7 @@ server.register(createLinkRoute);
 server.register(fetchLinksRoute);
 server.register(incrementAccessCountRoute);
 server.register(deleteLinkRoute);
+server.register(exportLinksRoute);
 
 server
   .listen({
