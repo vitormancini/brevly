@@ -14,17 +14,24 @@ services:
     networks:
       - node-app
       - db
-  # app:
-  #   build: . # Rodar a imagem da aplicação especificada no Dockerfile
-  #   depends_on: # O serviço da aplicação depende do serviço de banco de dados, aguardando o serviço iniciar antes de começar
-  #     - db
-  #   container_name: brevly-container
-  #   ports:
-  #     - 3000:3000
-  #   environment: # Definição das variáveis de ambiente
-  #     - DATABASE_URL=postgres://root:root@localhost:5432/brevly
-  #   networks:
-  #     - node-app
+  app:
+    build: . # Rodar a imagem da aplicação especificada no Dockerfile
+    depends_on: # O serviço da aplicação depende do serviço de banco de dados, aguardando o serviço iniciar antes de começar
+      - db
+    container_name: brevly-container
+    ports:
+      - 3000:3000
+    environment: # Definição das variáveis de ambiente
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_URL=postgres://root:root@db:5432/brevly
+      - CLOUDFLARE_ACCOUNT_ID=MY_CLOUDFLARE_ACCOUNT_ID
+      - CLOUDFLARE_ACCESS_KEY_ID=MY_CLOUDFLARE_ACCESS_KEY_ID
+      - CLOUDFLARE_SECRET_ACCESS_ID=MY_CLOUDFLARE_SECRET_ACCESS_ID
+      - CLOUDFLARE_BUCKET=brevly-server
+      - CLOUDFLARE_PUBLIC_URL=MY_CLOUDFLARE_PUBLIC_URL
+    networks:
+      - node-app
 
 volumes:
   db:

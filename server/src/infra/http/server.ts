@@ -29,7 +29,8 @@ server.setErrorHandler((error, request, reply) => {
     });
   }
 
-  return reply.status(500).send({ message: "Internal server error" });
+  //return reply.status(500).send({ message: "Internal server error" });
+  return reply.status(500).send({ message: error.message });
 });
 
 // Cors

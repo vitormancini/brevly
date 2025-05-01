@@ -30,14 +30,13 @@ FROM node:20-alpine3.21 AS deploy
 RUN apk add --no-cache shadow
 
 WORKDIR /usr/src/app
-RUN chown -R $USERNAME:$USERNAME ./
 
 COPY --from=build /usr/src/app/dist ./dist
 COPY --from=build /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/package.json ./package.json
 
 # Expondo a porta do container
-EXPOSE 8080
+EXPOSE 3000
 
 # Inicia a aplicação dentro do container
-CMD ["node", "dist/server.js"]
+CMD ["node", "dist/infra/http/server.mjs"]

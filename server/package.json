@@ -7,7 +7,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "test": "dotenv -e .env.test -- vitest run"
+    "test": "dotenv -e .env.test -- vitest run",
+    "build": "tsup-node"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,7 @@
     "drizzle-kit": "^0.31.0",
     "install": "^0.13.0",
     "npm": "^11.3.0",
+    "tsup": "^8.4.0",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3",
     "vite-tsconfig-paths": "^5.1.4",
