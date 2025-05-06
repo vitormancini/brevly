@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { InputContainer } from "./styles";
 
 interface InputProps {
@@ -6,10 +7,17 @@ interface InputProps {
 }
 
 export function Input({ label, placeholder }: InputProps) {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
-    <InputContainer>
+    <InputContainer $isFocused={isFocused}>
       <label htmlFor="link">{label}</label>
-      <input type="text" placeholder={placeholder} />
+      <input
+        type="text"
+        placeholder={placeholder}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+      />
     </InputContainer>
   );
 }

@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const SectionContainer = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   border-radius: 8px;
   background-color: ${(props) => props.theme["gray-100"]};

@@ -1,6 +1,8 @@
+import { DownloadSimple } from "phosphor-react";
 import { Input } from "../../components/Input";
+import { Link } from "../../components/Link";
 import { Section } from "../../components/Section";
-import { HomeContainer } from "./style";
+import { ExportButton, HomeContainer, LinksListContainer } from "./style";
 
 export function Home() {
   return (
@@ -13,7 +15,31 @@ export function Home() {
         </form>
       </Section>
 
-      <Section title="Meus links"></Section>
+      <Section title="Meus links">
+        <LinksListContainer>
+          <ExportButton type="button">
+            <DownloadSimple />
+            Baixar CSV
+          </ExportButton>
+          <div>
+            <Link
+              link="brev.ly/google"
+              shortLink="https://google.com"
+              accessCount={10}
+            />
+            <Link
+              link="brev.ly/google"
+              shortLink="https://google.com"
+              accessCount={10}
+            />
+            <Link
+              link="brev.ly/google"
+              shortLink="https://google.com"
+              accessCount={10}
+            />
+          </div>
+        </LinksListContainer>
+      </Section>
     </HomeContainer>
   );
 }
