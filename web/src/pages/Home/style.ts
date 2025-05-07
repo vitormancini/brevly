@@ -16,7 +16,7 @@ export const HomeContainer = styled.div`
     flex-direction: column;
 
     button {
-      margin-top: 4px;
+      margin-top: 1rem;
       background-color: ${(props) => props.theme["blue-base"]};
       color: ${(props) => props.theme["white"]};
       border-radius: 8px;
