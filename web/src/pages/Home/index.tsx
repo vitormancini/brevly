@@ -89,9 +89,11 @@ export function Home() {
             {links.map((link) => (
               <Link
                 key={link.id}
+                id={link.id}
                 link={link.link}
                 shortLink={link.shortLink}
                 accessCount={link.accessCount}
+                onDelete={fetchLinks}
               />
             ))}
           </div>

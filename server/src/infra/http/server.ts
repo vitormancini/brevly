@@ -34,7 +34,10 @@ server.setErrorHandler((error, request, reply) => {
 });
 
 // Cors
-server.register(fastifyCors, { origin: "*" });
+server.register(fastifyCors, {
+  origin: "*",
+  methods: ["GET", "POST", "DELETE", "PUT"],
+});
 
 // Documentação Swagger
 server.register(fastifySwagger, {

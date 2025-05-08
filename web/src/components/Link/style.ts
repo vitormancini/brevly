@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const LinkContainer = styled.div`
@@ -19,15 +20,16 @@ export const LinkArea = styled.div`
   flex-direction: column;
   gap: 4px;
 
-  h3 {
-    font: ${(props) => props.theme["text-md"]};
-    color: ${(props) => props.theme["blue-base"]};
-  }
-
   span {
     font: ${(props) => props.theme["text-sm"]};
     color: ${(props) => props.theme["gray-500"]};
   }
+`;
+
+export const StyledLink = styled(Link)`
+  text-decoration: none;
+  font: ${(props) => props.theme["text-md"]};
+  color: ${(props) => props.theme["blue-base"]};
 `;
 
 export const ActionButtonContainer = styled.div`
