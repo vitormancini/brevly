@@ -30,6 +30,7 @@ export const StyledLink = styled(Link)`
   text-decoration: none;
   font: ${(props) => props.theme["text-md"]};
   color: ${(props) => props.theme["blue-base"]};
+  font-weight: bold;
 `;
 
 export const ActionButtonContainer = styled.div`

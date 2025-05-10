@@ -40,9 +40,11 @@ export function Home() {
   );
 
   async function handleCreateNewLink(data: NewLinkFormData) {
+    const host = window.location.origin;
+
     await api.post("/links", {
       link: data.link,
-      shortLink: `http://localhost/${data.shortLink}`,
+      shortLink: `${host}/${data.shortLink}`,
     });
 
     reset();

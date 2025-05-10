@@ -13,6 +13,7 @@ import { createLinkRoute } from "./routes/create-link";
 import { deleteLinkRoute } from "./routes/delete-link";
 import { exportLinksRoute } from "./routes/export-links";
 import { fetchLinksRoute } from "./routes/fetch-links";
+import { getLinkRoute } from "./routes/get-link";
 import { incrementAccessCountRoute } from "./routes/increment-access-count";
 
 const server = fastify();
@@ -64,6 +65,7 @@ server.register(fetchLinksRoute);
 server.register(incrementAccessCountRoute);
 server.register(deleteLinkRoute);
 server.register(exportLinksRoute);
+server.register(getLinkRoute);
 
 server
   .listen({

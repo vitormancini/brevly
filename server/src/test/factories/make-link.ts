@@ -12,7 +12,11 @@ export async function makeLink(
       link: faker.internet.url(),
       shortLink: faker.internet.url(),
     })
-    .returning({ id: schemas.links.id });
+    .returning({
+      id: schemas.links.id,
+      link: schemas.links.link,
+      shortLink: schemas.links.shortLink,
+    });
 
   return result[0];
 }

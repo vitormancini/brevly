@@ -34,7 +34,9 @@ export function Link({
   return (
     <LinkContainer>
       <LinkArea>
-        <StyledLink to={shortLink}>{shortLink}</StyledLink>
+        <StyledLink to={shortLink} target="_blank">
+          {shortLink}
+        </StyledLink>
         <span>{link}</span>
       </LinkArea>
 
