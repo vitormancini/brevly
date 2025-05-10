@@ -12,30 +12,43 @@ interface LinkProps {
   link: string;
   shortLink: string;
   accessCount: number;
-  onDelete: () => void;
+  onModified: () => void;
 }
+
+const host = window.location.origin
+  .replace("http://", "")
+  .replace("https://", "");
 
 export function Link({
   id,
   link,
   shortLink,
   accessCount,
-  onDelete,
+  onModified,
 }: LinkProps) {
   async function handleDeleteLink(linkId: string) {
     await api.delete(`/links/${linkId}`);
-    onDelete();
+    onModified();
   }
 
   function handleCopyLink(link: string) {
     navigator.clipboard.writeText(link);
   }
 
+  async function incrementAccessCount() {
+    await api.put(`/links/${id}`);
+    onModified();
+  }
+
   return (
     <LinkContainer>
       <LinkArea>
-        <StyledLink to={shortLink} target="_blank">
-          {shortLink}
+        <StyledLink
+          to={shortLink}
+          target="_blank"
+          onClick={incrementAccessCount}
+        >
+          {host}/{shortLink}
         </StyledLink>
         <span>{link}</span>
       </LinkArea>

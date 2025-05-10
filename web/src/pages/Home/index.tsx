@@ -1,21 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DownloadSimple } from "phosphor-react";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Input } from "../../components/Input";
 import { Link } from "../../components/Link";
 import { Section } from "../../components/Section";
+import { useLinks } from "../../context/LinkContext";
 import { api } from "../../lib/axios";
 import { ExportButton, HomeContainer, LinksListContainer } from "./style";
-
-interface Links {
-  id: string;
-  link: string;
-  shortLink: string;
-  accessCount: number;
-  createAt: Date;
-}
 
 const newLinkFormValidationSchema = z.object({
   link: z.string().trim().url("Informe uma URL válida"),
@@ -27,7 +20,7 @@ const newLinkFormValidationSchema = z.object({
 type NewLinkFormData = z.infer<typeof newLinkFormValidationSchema>;
 
 export function Home() {
-  const [links, setLinks] = useState<Links[]>([]);
+  const { links, fetchLinks } = useLinks();
 
   const { register, handleSubmit, formState, reset } = useForm<NewLinkFormData>(
     {
@@ -40,11 +33,9 @@ export function Home() {
   );
 
   async function handleCreateNewLink(data: NewLinkFormData) {
-    const host = window.location.origin;
-
     await api.post("/links", {
       link: data.link,
-      shortLink: `${host}/${data.shortLink}`,
+      shortLink: data.shortLink,
     });
 
     reset();
@@ -52,14 +43,9 @@ export function Home() {
     await fetchLinks();
   }
 
-  async function fetchLinks() {
-    const response = await api.get("/links");
-    setLinks(response.data.links);
-  }
-
-  useState(() => {
+  useEffect(() => {
     fetchLinks();
-  });
+  }, []);
 
   return (
     <HomeContainer>
@@ -95,7 +81,7 @@ export function Home() {
                 link={link.link}
                 shortLink={link.shortLink}
                 accessCount={link.accessCount}
-                onDelete={fetchLinks}
+                onModified={fetchLinks}
               />
             ))}
           </div>

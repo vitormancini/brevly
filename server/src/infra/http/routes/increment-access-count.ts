@@ -6,7 +6,7 @@ import { z } from "zod";
 export const incrementAccessCountRoute: FastifyPluginAsyncZod = async (
   server
 ) => {
-  server.get(
+  server.put(
     "/links/:id",
     {
       schema: {

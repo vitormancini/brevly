@@ -11,13 +11,15 @@ type RouteParams = {
 export function Redirect() {
   const { shortLink } = useParams<RouteParams>();
 
-  async function fetchLinkById() {
-    const result = await api.get(`/links/${shortLink}`);
-    console.log(result.data);
+  async function fetchLink() {
+    const result = await api.get(`/links/redirect/${shortLink}`);
+    if (result.status === 200) {
+      window.location.href = result.data.link;
+    }
   }
 
   useEffect(() => {
-    fetchLinkById();
+    fetchLink();
   }, []);
 
   return (

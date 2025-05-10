@@ -7,7 +7,7 @@ import { LinkAlreadyExistsError } from "../errors/link-already-exists-error";
 
 const createLinkInput = z.object({
   link: z.string().url(),
-  shortLink: z.string().url(),
+  shortLink: z.string(),
 });
 
 type CreateLinkInput = z.input<typeof createLinkInput>;
