@@ -35,8 +35,14 @@ export function Link({
   } | null>(null);
 
   async function handleDeleteLink(linkId: string) {
-    await api.delete(`/links/${linkId}`);
-    onModified();
+    const confirmation = window.confirm(
+      "Tem certeza que deseja excluir esse link?"
+    );
+
+    if (confirmation) {
+      await api.delete(`/links/${linkId}`);
+      onModified();
+    }
   }
 
   function handleCopyLink(link: string) {

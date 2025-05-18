@@ -1,11 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DownloadSimple } from "phosphor-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Input } from "../../components/Input";
 import { Link } from "../../components/Link";
 import { Section } from "../../components/Section";
+import { ToastMessage } from "../../components/ToastMessage";
 import { useLinks } from "../../context/LinkContext";
 import { api } from "../../lib/axios";
 import { ExportButton, HomeContainer, LinksListContainer } from "./style";
@@ -21,6 +22,12 @@ type NewLinkFormData = z.infer<typeof newLinkFormValidationSchema>;
 
 export function Home() {
   const { links, fetchLinks } = useLinks();
+
+  const [toast, setToast] = useState<{
+    type: "success" | "error" | "info";
+    title: string;
+    message: string;
+  } | null>(null);
 
   const { register, handleSubmit, formState, reset } = useForm<NewLinkFormData>(
     {
@@ -41,6 +48,25 @@ export function Home() {
     reset();
 
     await fetchLinks();
+  }
+
+  async function exportCSV() {
+    try {
+      const result = await api.post("/links/export");
+      const { reportUrl } = result.data;
+
+      const link = document.createElement("a");
+      link.href = reportUrl;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch {
+      setToast({
+        type: "error",
+        title: "Erro",
+        message: "Ocorreu um erro ao exportar CSV",
+      });
+    }
   }
 
   useEffect(() => {
@@ -69,7 +95,7 @@ export function Home() {
 
       <Section title="Meus links">
         <LinksListContainer>
-          <ExportButton type="button">
+          <ExportButton type="button" onClick={exportCSV}>
             <DownloadSimple />
             Baixar CSV
           </ExportButton>
@@ -87,6 +113,15 @@ export function Home() {
           </div>
         </LinksListContainer>
       </Section>
+
+      {toast && (
+        <ToastMessage
+          type={toast.type}
+          title={toast.title}
+          message={toast.message}
+          onClose={() => setToast(null)}
+        />
+      )}
     </HomeContainer>
   );
 }
