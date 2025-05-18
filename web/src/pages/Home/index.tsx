@@ -75,7 +75,7 @@ export function Home() {
 
   return (
     <HomeContainer>
-      <Section title="Novo link">
+      <Section title="Novo link" variant="form">
         <form onSubmit={handleSubmit(handleCreateNewLink)}>
           <Input
             label="LINK ORIGINAL"
@@ -93,7 +93,7 @@ export function Home() {
         </form>
       </Section>
 
-      <Section title="Meus links">
+      <Section title="Meus links" variant="list">
         <LinksListContainer>
           <ExportButton type="button" onClick={exportCSV}>
             <DownloadSimple />
