@@ -1,5 +1,7 @@
 import { Copy, Trash } from "phosphor-react";
+import { useState } from "react";
 import { api } from "../../lib/axios";
+import { ToastMessage } from "../ToastMessage";
 import {
   ActionButtonContainer,
   LinkArea,
@@ -26,12 +28,23 @@ export function Link({
   accessCount,
   onModified,
 }: LinkProps) {
+  const [toast, setToast] = useState<{
+    type: "success" | "error" | "info";
+    title: string;
+    message: string;
+  } | null>(null);
+
   async function handleDeleteLink(linkId: string) {
     await api.delete(`/links/${linkId}`);
     onModified();
   }
 
   function handleCopyLink(link: string) {
+    setToast({
+      type: "info",
+      title: "Link copiado com sucesso",
+      message: "O link foi copiado para a area de transferencia",
+    });
     navigator.clipboard.writeText(link);
   }
 
@@ -62,6 +75,15 @@ export function Link({
           <Trash />
         </button>
       </ActionButtonContainer>
+
+      {toast && (
+        <ToastMessage
+          type={toast.type}
+          title={toast.title}
+          message={toast.message}
+          onClose={() => setToast(null)}
+        />
+      )}
     </LinkContainer>
   );
 }
