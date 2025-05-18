@@ -63,7 +63,7 @@ export function Link({
     <LinkContainer>
       <LinkArea>
         <StyledLink
-          to={shortLink}
+          to={`/url/${shortLink}`}
           target="_blank"
           onClick={incrementAccessCount}
         >

@@ -12,9 +12,15 @@ export function Redirect() {
   const { shortLink } = useParams<RouteParams>();
 
   async function fetchLink() {
-    const result = await api.get(`/links/redirect/${shortLink}`);
-    if (result.status === 200) {
-      window.location.href = result.data.link;
+    try {
+      const result = await api.get(`/links/redirect/${shortLink}`);
+      if (result.status === 200) {
+        window.location.href = result.data.link;
+      }
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        window.location.href = "/not-found";
+      }
     }
   }
 

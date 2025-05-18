@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DownloadSimple } from "phosphor-react";
+import { DownloadSimple, Link as IconLink } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -9,7 +9,12 @@ import { Section } from "../../components/Section";
 import { ToastMessage } from "../../components/ToastMessage";
 import { useLinks } from "../../context/LinkContext";
 import { api } from "../../lib/axios";
-import { ExportButton, HomeContainer, LinksListContainer } from "./style";
+import {
+  EmptyListContainer,
+  ExportButton,
+  HomeContainer,
+  LinksListContainer,
+} from "./style";
 
 const newLinkFormValidationSchema = z.object({
   link: z.string().trim().url("Informe uma URL válida"),
@@ -40,14 +45,31 @@ export function Home() {
   );
 
   async function handleCreateNewLink(data: NewLinkFormData) {
-    await api.post("/links", {
-      link: data.link,
-      shortLink: data.shortLink,
-    });
+    try {
+      await api.post("/links", {
+        link: data.link,
+        shortLink: data.shortLink,
+      });
 
-    reset();
+      reset();
+      await fetchLinks();
+    } catch (error: any) {
+      if (error.response?.status === 409) {
+        setToast({
+          type: "error",
+          title: "Erro no cadastro",
+          message: "Esta URL encurtada já existe",
+        });
+        return;
+      }
 
-    await fetchLinks();
+      // Trate outros erros genéricos, se necessário
+      setToast({
+        type: "error",
+        title: "Erro inesperado",
+        message: "Não foi possível criar o link. Tente novamente.",
+      });
+    }
   }
 
   async function exportCSV() {
@@ -94,24 +116,31 @@ export function Home() {
       </Section>
 
       <Section title="Meus links" variant="list">
-        <LinksListContainer>
-          <ExportButton type="button" onClick={exportCSV}>
-            <DownloadSimple />
-            Baixar CSV
-          </ExportButton>
-          <div>
-            {links.map((link) => (
-              <Link
-                key={link.id}
-                id={link.id}
-                link={link.link}
-                shortLink={link.shortLink}
-                accessCount={link.accessCount}
-                onModified={fetchLinks}
-              />
-            ))}
-          </div>
-        </LinksListContainer>
+        <ExportButton type="button" onClick={exportCSV}>
+          <DownloadSimple />
+          Baixar CSV
+        </ExportButton>
+        {links.length === 0 ? (
+          <EmptyListContainer>
+            <IconLink size={24} />
+            <p>AINDA NÃO EXISTEM LINKS CADASTRADOS</p>
+          </EmptyListContainer>
+        ) : (
+          <LinksListContainer>
+            <div>
+              {links.map((link) => (
+                <Link
+                  key={link.id}
+                  id={link.id}
+                  link={link.link}
+                  shortLink={link.shortLink}
+                  accessCount={link.accessCount}
+                  onModified={fetchLinks}
+                />
+              ))}
+            </div>
+          </LinksListContainer>
+        )}
       </Section>
 
       {toast && (

@@ -58,3 +58,17 @@ export const ExportButton = styled.button`
     background-color: ${(props) => props.theme["gray-300"]};
   }
 `;
+
+export const EmptyListContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: ${(props) => props.theme["gray-500"]};
+  border-top: 1px solid ${(props) => props.theme["gray-300"]};
+  padding-top: 1.5rem;
+  font: ${(props) => props.theme["text-sm"]};
+  margin-top: 1rem;
+`;
